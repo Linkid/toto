@@ -13,11 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         python-version: [2.7]
-        experimental: [false]
-
-        include:
-          - python-version: 3.6
-            experimental: true
 
     steps:
       - name: checkout
@@ -29,10 +24,26 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: run tests
-        if: ${{ matrix.python-version == '2.7' }}
         run: python -c "import tester; tester.ok()"
 
+  nok:
+    name: nok
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: 3.6
+        experimental: true
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
       - name: run tests KO
-        if: ${{ matrix.python-version != '2.7' }}
         run: python -c "import tester; tester.ko()"
-        continue-on-error: ${{ matrix.experimental }}

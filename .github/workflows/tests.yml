@@ -1,0 +1,27 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: [2.7]
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: run tests
+        run: python -c "import tester; tester.ok()"

@@ -10,9 +10,12 @@ jobs:
     name: tests
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
       matrix:
         python-version: [2.7]
+
+        include:
+          - python-version: 3.6
+            experimental: true
 
     steps:
       - name: checkout
@@ -28,4 +31,3 @@ jobs:
 
       - name: run tests KO
         run: python -c "import tester; tester.ko()"
-        experimental: true

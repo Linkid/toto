@@ -27,7 +27,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: run tests
+        if: ${{ matrix.python-version == '2.7' }}
         run: python -c "import tester; tester.ok()"
 
       - name: run tests KO
+        if: ${{ matrix.python-version != '2.7' }}
         run: python -c "import tester; tester.ko()"

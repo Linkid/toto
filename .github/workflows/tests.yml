@@ -28,3 +28,4 @@ jobs:
 
       - name: run tests KO
         run: python -c "import tester; tester.ko()"
+        experimental: true
